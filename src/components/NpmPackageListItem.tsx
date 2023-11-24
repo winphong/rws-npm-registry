@@ -32,15 +32,15 @@ const Ellipsis = styled.span`
 
 const HorizontalDivider = styled(Divider)`
   width: 100%;
-  margin: 2% 0;
+  margin: 1% 0;
 `;
 
 const StyledCard = styled(Card)`
+  margin: 0 4px;
   border-radius: 10px;
-  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   min-height: 110px;
-  max-width: 700px;
 `;
 
 export default NpmPackageListItem;
