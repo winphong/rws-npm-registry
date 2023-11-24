@@ -1,5 +1,11 @@
+import NpmPackageList from "src/components/NpmPackageList";
+
 const Main = () => {
-  return <></>;
+  return (
+    <>
+      <NpmPackageList />
+    </>
+  );
 };
 
 export default Main;
