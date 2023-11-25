@@ -26,7 +26,15 @@ const NpmPackageDetail = () => {
   return (
     <Container>
       <Title className="bp5-text-large">
-        {data.name} v{data.version}
+        <a
+          href={`https://www.npmjs.com/package/${data.name}`}
+          target="_blank"
+          rel="noreferrer"
+          style={{ textDecoration: "none" }}
+        >
+          {data.name}
+        </a>{" "}
+        &#183; v{data.version}
       </Title>
       <Divider />
       <span className="bp5-text-muted">{data.description}</span>
