@@ -1,33 +1,43 @@
 import { Card, Divider } from "@blueprintjs/core";
 import { NpmPackage } from "../typings/npm";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { Flex } from "./Flex";
 
 const NpmPackageListItem = ({ npmPackage }: { npmPackage: NpmPackage }) => {
   return (
-    <StyledCard>
-      <Flex>
-        <strong className="bp5-text-large">{npmPackage.name}</strong>
-        <Ellipsis className="bp5-text-muted">{npmPackage.description}</Ellipsis>
-        <HorizontalDivider />
-        <span>
-          {npmPackage.publisher?.username} published {npmPackage.date}
-        </span>
-      </Flex>
-    </StyledCard>
+    <StyledLink to={`package/${npmPackage.name}`}>
+      <StyledCard>
+        <Flex>
+          <strong className="bp5-text-large">{npmPackage.name}</strong>
+          <Ellipsis className="bp5-text-muted">
+            {npmPackage.description}
+          </Ellipsis>
+          <HorizontalDivider />
+          <span>
+            {npmPackage.publisher?.username} published {npmPackage.date}
+          </span>
+        </Flex>
+      </StyledCard>
+    </StyledLink>
   );
 };
-
-const Flex = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-`;
 
 const Ellipsis = styled.span`
   max-width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+`;
+
+const StyledLink = styled(Link)`
+  color: inherit;
+  text-decoration: none;
+
+  :hover & {
+    color: inherit;
+    text-decoration: none;
+  }
 `;
 
 const HorizontalDivider = styled(Divider)`

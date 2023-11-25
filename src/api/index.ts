@@ -15,3 +15,13 @@ export const searchNpmRegistry = async ({
   );
   return response.data;
 };
+
+export const listLastestPackage = async ({
+  packageName,
+}: {
+  packageName: string;
+}) => {
+  const api = await getAxiosInstance();
+  const response = await api.get(`/${packageName}/latest`);
+  return response.data;
+};
