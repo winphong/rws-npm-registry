@@ -25,9 +25,9 @@ const NpmPackageDetail = () => {
 
   return (
     <Container>
-      <span className="bp5-text-large">
+      <Title className="bp5-text-large">
         {data.name} v{data.version}
-      </span>
+      </Title>
       <Divider />
       <span className="bp5-text-muted">{data.description}</span>
       {url && (
@@ -83,6 +83,10 @@ const NpmPackageDetail = () => {
     </Container>
   );
 };
+
+const Title = styled.span`
+  font-size: 24px;
+`;
 
 const Container = styled.div`
   max-width: 60vw;

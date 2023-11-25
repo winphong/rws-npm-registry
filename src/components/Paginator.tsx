@@ -1,13 +1,20 @@
-import { Button } from "@blueprintjs/core";
+import { Button, Spinner } from "@blueprintjs/core";
 import { useLocation, useNavigate } from "react-router";
 import { searchNpmRegistry } from "src/api";
 import { useAppContext } from "src/common/context";
 import { CenterFlex } from "./Flex";
+import { useState } from "react";
+import { Spacer } from "./Spacer";
 
 const Paginator = () => {
   const context = useAppContext();
   const location = useLocation();
   const navigate = useNavigate();
+
+  const [loader, setLoader] = useState({
+    isNextLoading: false,
+    isPrevLoading: false,
+  });
 
   const searchParams = new URLSearchParams(location.search);
   const offset = searchParams.get("offset");
@@ -21,6 +28,8 @@ const Paginator = () => {
   const currentPage = Math.min(Math.floor(Number(offset) / 20 + 1), maxPage);
 
   const handleChangePage = async (steps: number) => {
+    const isIncrement = steps > 0;
+    setLoader({ isNextLoading: isIncrement, isPrevLoading: !isIncrement });
     const response = await searchNpmRegistry({
       offset: Number(offset) + steps,
       searchString: query,
@@ -34,27 +43,34 @@ const Paginator = () => {
     });
 
     window.scrollTo({ top: 0, behavior: "smooth" });
+
+    setLoader({ isNextLoading: false, isPrevLoading: false });
   };
+
   const handleNext20 = async () => {
-    // TODO: Debounce
     await handleChangePage(20);
   };
 
   const handlePrevious20 = async () => {
-    // TODO: Debounce
     await handleChangePage(-20);
   };
 
   return (
     <CenterFlex>
-      <Button onClick={handlePrevious20} disabled={currentPage === 1}>
-        {"<"}
+      <Button
+        onClick={handlePrevious20}
+        disabled={currentPage === 1 || loader.isPrevLoading}
+      >
+        {loader.isPrevLoading ? <Spinner size={10} /> : "<"}
       </Button>
-      <div style={{ width: "10px" }}></div>
+      <Spacer width="1vw" />
       <span>{currentPage}</span>
-      <div style={{ width: "10px" }}></div>
-      <Button onClick={handleNext20} disabled={currentPage === maxPage}>
-        {">"}
+      <Spacer width="1vw" />
+      <Button
+        onClick={handleNext20}
+        disabled={currentPage === maxPage || loader.isNextLoading}
+      >
+        {loader.isNextLoading ? <Spinner size={10} /> : ">"}
       </Button>
     </CenterFlex>
   );
