@@ -3,6 +3,7 @@ import { NpmPackage } from "../typings/npm";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { VFlex } from "./Flex";
+import { formatDistance } from "date-fns";
 
 const NpmPackageListItem = ({ npmPackage }: { npmPackage: NpmPackage }) => {
   return (
@@ -10,13 +11,19 @@ const NpmPackageListItem = ({ npmPackage }: { npmPackage: NpmPackage }) => {
       <StyledCard>
         <VFlex>
           <strong className="bp5-text-large">{npmPackage.name}</strong>
+          last{" "}
           <Ellipsis className="bp5-text-muted">
             {npmPackage.description}
           </Ellipsis>
           <HorizontalDivider />
-          <span>
-            {npmPackage.publisher?.username} published {npmPackage.date}
-          </span>
+          <PublishedText>
+            {npmPackage.publisher?.username} published{" "}
+            <em>
+              {formatDistance(new Date(npmPackage.date), new Date(), {
+                addSuffix: true,
+              })}
+            </em>
+          </PublishedText>
         </VFlex>
       </StyledCard>
     </StyledLink>
@@ -43,6 +50,11 @@ const StyledLink = styled(Link)`
 const HorizontalDivider = styled(Divider)`
   width: 100%;
   margin: 1% 0;
+`;
+
+const PublishedText = styled.span`
+  font-size: 12px;
+  color: #0a346e;
 `;
 
 const StyledCard = styled(Card)`
