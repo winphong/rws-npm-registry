@@ -80,6 +80,7 @@ const SearchBar = () => {
 
   return (
     <InputGroup
+      data-testid="test-search-bar"
       asyncControl
       leftIcon="search"
       defaultValue={searchQuery ?? ""}

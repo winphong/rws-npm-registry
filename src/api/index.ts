@@ -25,3 +25,7 @@ export const listLastestPackage = async ({
   const response = await api.get(`/${packageName}/latest`);
   return response.data;
 };
+
+const api = { searchNpmRegistry, listLastestPackage };
+
+export default api;
