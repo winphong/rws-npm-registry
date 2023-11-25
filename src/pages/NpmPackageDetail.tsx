@@ -21,7 +21,7 @@ const NpmPackageDetail = () => {
     return null;
   }
 
-  const url = data.repository?.url.split("+")[1];
+  const url = data.repository?.url?.split("+")[1];
 
   return (
     <Container>
