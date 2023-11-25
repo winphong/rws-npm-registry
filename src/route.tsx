@@ -24,6 +24,7 @@ export const router = createBrowserRouter(
 
           return listLastestPackage({ packageName });
         }}
+        errorElement={UndefinedRouteFallback}
       />
       <Route
         path="/"
