@@ -3,10 +3,10 @@ import getAxiosInstance from "./axios";
 export const searchNpmRegistry = async ({
   searchString,
   offset,
-  size,
+  size = 20,
 }: {
   searchString: string;
-  size: number;
+  size?: number;
   offset: number;
 }) => {
   const api = await getAxiosInstance();

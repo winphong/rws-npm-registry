@@ -28,12 +28,12 @@ const SearchBar = () => {
     const response = await searchNpmRegistry({
       offset: 0,
       searchString: query,
-      size: 20,
     });
     context.updatePackageList(response.objects);
     context.setNumOfResult(response.total);
 
     searchParams.set("search", query);
+    searchParams.set("offset", "0");
     navigate({
       pathname: location.pathname,
       search: `?${searchParams.toString()}`,
@@ -48,14 +48,25 @@ const SearchBar = () => {
     }
 
     const fetchInitialSearchResult = async () => {
+      const offset = searchParams.get("offset") ?? 0;
+      const numericOffSet = Number(offset);
+
+      const nonNegativeOffset = Math.max(numericOffSet, 0);
+      const floorToMultipleOf20 = Math.floor(nonNegativeOffset / 20) * 20;
+
       try {
         const response = await searchNpmRegistry({
-          offset: 0,
+          offset: floorToMultipleOf20,
           searchString: searchQuery,
-          size: 20,
         });
         context.updatePackageList(response.objects);
         context.setNumOfResult(response.total);
+
+        searchParams.set("offset", `${floorToMultipleOf20}`);
+        navigate({
+          pathname: location.pathname,
+          search: `?${searchParams.toString()}`,
+        });
       } catch (error) {
         console.error("Error fetching data:", error);
       }

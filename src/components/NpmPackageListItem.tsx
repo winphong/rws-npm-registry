@@ -2,13 +2,13 @@ import { Card, Divider } from "@blueprintjs/core";
 import { NpmPackage } from "../typings/npm";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { Flex } from "./Flex";
+import { VFlex } from "./Flex";
 
 const NpmPackageListItem = ({ npmPackage }: { npmPackage: NpmPackage }) => {
   return (
     <StyledLink to={`package/${npmPackage.name}`}>
       <StyledCard>
-        <Flex>
+        <VFlex>
           <strong className="bp5-text-large">{npmPackage.name}</strong>
           <Ellipsis className="bp5-text-muted">
             {npmPackage.description}
@@ -17,7 +17,7 @@ const NpmPackageListItem = ({ npmPackage }: { npmPackage: NpmPackage }) => {
           <span>
             {npmPackage.publisher?.username} published {npmPackage.date}
           </span>
-        </Flex>
+        </VFlex>
       </StyledCard>
     </StyledLink>
   );

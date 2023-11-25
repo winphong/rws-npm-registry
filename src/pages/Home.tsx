@@ -1,6 +1,8 @@
 import { Spinner } from "@blueprintjs/core";
 import { useNavigation } from "react-router";
+import { HCenterFlex } from "src/components/Flex";
 import NpmPackageList from "src/components/NpmPackageList";
+import Paginator from "src/components/Paginator";
 import SearchBar from "src/components/SearchBar";
 import SearchResultCount from "src/components/SearchResultCount";
 import { Spacer } from "src/components/Spacer";
@@ -23,14 +25,21 @@ const Home = () => {
             <SearchBar />
           </SearchBarContainer>
 
-          <Spacer />
+          <Spacer height="1.5vh" />
 
-          <SearchResultCount />
+          <HCenterFlex>
+            <SearchResultCount />
+            <Spacer width="1vw" />
+            <Paginator />
+          </HCenterFlex>
 
-          <Spacer />
+          <Spacer height="1.5vh" />
 
           <PackageListContainer>
             <NpmPackageList />
+            <Spacer height="1.5vh" />
+            <Paginator />
+            <Spacer height="5vh" />
           </PackageListContainer>
         </>
       )}
