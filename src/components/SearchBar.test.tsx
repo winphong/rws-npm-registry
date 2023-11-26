@@ -18,15 +18,17 @@ jest.mock("src/api", () => ({
 }));
 
 describe("search bar", () => {
-  let mockUseLocation: jest.Mock;
+  let mockUseLocation: jest.Mock, searchNpmRegistrySpy: jest.SpyInstance;
 
   beforeEach(() => {
     mockUseLocation = useLocation as jest.Mock;
-
     mockUseLocation.mockReturnValue({ search: "" });
-    mockedUseNavigate.mockReturnValue(
-      (params: { search: string; pathname: string }) => null
-    );
+
+    searchNpmRegistrySpy = jest.spyOn(api, "searchNpmRegistry");
+    searchNpmRegistrySpy.mockResolvedValue({
+      objects: [{ package: { name: "dnd" } }],
+      total: 1,
+    });
   });
 
   afterEach(() => {
@@ -44,13 +46,7 @@ describe("search bar", () => {
     expect(linkElement).toBeInTheDocument();
   });
 
-  it("should handle change in input and set query string to url", async () => {
-    const mockSearchNpmRegistry = jest.spyOn(api, "searchNpmRegistry");
-    mockSearchNpmRegistry.mockResolvedValue({
-      objects: [{ package: { name: "dnd" } }],
-      total: 1,
-    });
-
+  test("should handle change in input and set query string to url", async () => {
     render(
       <AppContextProvider>
         <SearchBar />
@@ -61,18 +57,17 @@ describe("search bar", () => {
       target: { value: "dnd" },
     });
 
-    await waitFor(() => expect(mockSearchNpmRegistry).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(searchNpmRegistrySpy).toHaveBeenCalledTimes(1));
 
     expect(mockedUseNavigate.mock.calls[0][0].search).toEqual(
       "?search=dnd&offset=0"
     );
   });
 
-  it("should call api and set query string to url if the search args on first load is not empty", async () => {
+  test("should call api and set query string to url if the search args on first load is not empty", async () => {
     mockUseLocation.mockReturnValue({ search: "?search=lodash" });
 
-    const mockSearchNpmRegistry = jest.spyOn(api, "searchNpmRegistry");
-    mockSearchNpmRegistry.mockResolvedValue({
+    searchNpmRegistrySpy.mockResolvedValue({
       objects: [{ package: { name: "lodash" } }],
       total: 1,
     });
@@ -83,7 +78,7 @@ describe("search bar", () => {
       </AppContextProvider>
     );
 
-    await waitFor(() => expect(mockSearchNpmRegistry).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(searchNpmRegistrySpy).toHaveBeenCalledTimes(1));
 
     await screen.findByDisplayValue("lodash");
 

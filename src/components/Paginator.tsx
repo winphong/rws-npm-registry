@@ -1,5 +1,5 @@
 import { Button, Spinner } from "@blueprintjs/core";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router-dom";
 import { searchNpmRegistry } from "src/api";
 import { useAppContext } from "src/common/context";
 import { CenterFlex } from "./Flex";
@@ -58,21 +58,31 @@ const Paginator = () => {
   const isLoading = loader.isPrevLoading || loader.isNextLoading;
 
   return (
-    <CenterFlex>
+    <CenterFlex data-testid="test-paginator">
       <Button
+        data-testid="test-paginator-prev"
         onClick={handlePrevious20}
         disabled={currentPage === 1 || isLoading}
       >
-        {loader.isPrevLoading ? <Spinner size={10} /> : "<"}
+        {loader.isPrevLoading ? (
+          <Spinner data-testid="test-paginator-left-spinner" size={10} />
+        ) : (
+          <span data-testid="test-paginator-left-cursor">&lt;</span>
+        )}
       </Button>
       <Spacer width="1vw" />
-      <span>{currentPage}</span>
+      <span data-testid="test-paginator-current-page">{currentPage}</span>
       <Spacer width="1vw" />
       <Button
+        data-testid="test-paginator-next"
         onClick={handleNext20}
         disabled={currentPage === maxPage || isLoading}
       >
-        {loader.isNextLoading ? <Spinner size={10} /> : ">"}
+        {loader.isNextLoading ? (
+          <Spinner data-testid="test-paginator-right-spinner" size={10} />
+        ) : (
+          <span data-testid="test-paginator-right-cursor">&gt;</span>
+        )}
       </Button>
     </CenterFlex>
   );
