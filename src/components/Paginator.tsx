@@ -55,11 +55,13 @@ const Paginator = () => {
     await handleChangePage(-20);
   };
 
+  const isLoading = loader.isPrevLoading || loader.isNextLoading;
+
   return (
     <CenterFlex>
       <Button
         onClick={handlePrevious20}
-        disabled={currentPage === 1 || loader.isPrevLoading}
+        disabled={currentPage === 1 || isLoading}
       >
         {loader.isPrevLoading ? <Spinner size={10} /> : "<"}
       </Button>
@@ -68,7 +70,7 @@ const Paginator = () => {
       <Spacer width="1vw" />
       <Button
         onClick={handleNext20}
-        disabled={currentPage === maxPage || loader.isNextLoading}
+        disabled={currentPage === maxPage || isLoading}
       >
         {loader.isNextLoading ? <Spinner size={10} /> : ">"}
       </Button>

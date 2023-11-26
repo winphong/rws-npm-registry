@@ -11,13 +11,12 @@ const NpmPackageListItem = ({ npmPackage }: { npmPackage: NpmPackage }) => {
       <StyledCard>
         <VFlex>
           <strong className="bp5-text-large">{npmPackage.name}</strong>
-          last{" "}
           <Ellipsis className="bp5-text-muted">
             {npmPackage.description}
           </Ellipsis>
           <HorizontalDivider />
           <PublishedText>
-            {npmPackage.publisher?.username} published{" "}
+            {npmPackage.publisher?.username} last published{" "}
             <em>
               {formatDistance(new Date(npmPackage.date), new Date(), {
                 addSuffix: true,
