@@ -1,21 +1,12 @@
 import { Divider } from "@blueprintjs/core";
-import _ from "lodash";
 import { useLoaderData } from "react-router";
+import Contributors from "src/components/Contributors";
 import { Spacer } from "src/components/Spacer";
+import { NpmPkgDetail } from "src/typings/npm";
 import styled from "styled-components";
 
 const NpmPackageDetail = () => {
-  const data = useLoaderData() as {
-    name: string;
-    version: string;
-    description: string;
-    homepage: string;
-    repository: { type: string; url: string };
-    icon: string;
-    license: string;
-    contributors: Array<{ name: string; email: string }>;
-    maintainers: Array<{ name: string; email: string }>;
-  };
+  const data = useLoaderData() as NpmPkgDetail;
 
   if (!data) {
     return null;
@@ -49,43 +40,9 @@ const NpmPackageDetail = () => {
       <div>
         <Spacer height={"3vh"} />
         {data.contributors?.length > 0 ? (
-          <>
-            <span>Contributors</span>
-            <Divider />
-            {_.map(data.contributors, (contributor, index) => {
-              if (index === data.contributors.length - 1) {
-                return (
-                  <span className="bp5-text-muted" key={contributor.email}>
-                    {contributor.name}
-                  </span>
-                );
-              }
-              return (
-                <span className="bp5-text-muted" key={contributor.email}>
-                  {contributor.name},{" "}
-                </span>
-              );
-            })}
-          </>
+          <Contributors title="Contributors" people={data.contributors} />
         ) : (
-          <>
-            <span>Maintainers</span>
-            <Divider />
-            {_.map(data.maintainers, (maintainer, index) => {
-              if (index === data.maintainers.length - 1) {
-                return (
-                  <span className="bp5-text-muted" key={maintainer.email}>
-                    {maintainer.name}
-                  </span>
-                );
-              }
-              return (
-                <span className="bp5-text-muted" key={maintainer.email}>
-                  {maintainer.name},{" "}
-                </span>
-              );
-            })}
-          </>
+          <Contributors title="Maintainers" people={data.maintainers} />
         )}
       </div>
     </Container>
